@@ -103,6 +103,13 @@ class CalculatorTest {
     assertCalculateWithGivenExpression("1 + 4 -2 *3", 9);
   }
 
+  @Test
+  void calculate_expression에_숫자_연산자가_아닌값이_포함되어있으면_예외를_발생한다() {
+    assertThatThrownBy(() -> {
+      assertCalculateWithGivenExpression("a + b", 12);
+    }).isInstanceOf(IllegalArgumentException.class);
+  }
+
   private static class Calculator {
 
     public int calculate(String expression) {
