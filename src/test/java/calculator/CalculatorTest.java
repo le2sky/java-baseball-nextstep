@@ -2,32 +2,31 @@ package calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class CalculatorTest {
 
 
-  @Test
-  void create_calculator() {
-    Calculator calculator = new Calculator();
+  private static Calculator calculator;
+
+  @BeforeAll
+  static void beforeAll() {
+    calculator = new Calculator();
   }
 
   @Test
-  void plus_test() {
-    Calculator calculator = new Calculator();
+  void calculate_피연산자_두개_더하기() {
     int actual = calculator.calculate("1 + 1");
     assertThat(actual).isEqualTo(2);
   }
 
   @Test
-  void minus_test() {
-    Calculator calculator = new Calculator();
+  void calculate_피연산자_두개_빼기() {
     int actual = calculator.calculate("1 - 1");
     assertThat(actual).isEqualTo(0);
   }
-
-
-  private class Calculator {
+  private static class Calculator {
 
     public int calculate(String expression) {
       if (expression.contains("+")) {
