@@ -28,24 +28,26 @@ class CalculatorTest {
 
   @ParameterizedTest
   @CsvSource(value = {"1 + 1:2", "1 + 1 + 1:3", "2 + 3 + 4 + 5:14"}, delimiter = ':')
-  void calculate_피연산자_두개_더하기(String source, int expected) {
+  void calculate_더하기(String source, int expected) {
     assertCalculateWithGivenExpression(source, expected);
   }
 
   @ParameterizedTest
   @CsvSource(value = {"1 - 1:0", "3 - 2 - 2:-1", "10 - 3 - 4 - 1:2"}, delimiter = ':')
-  void calculate_피연산자_세개_빼기(String source, int expected) {
+  void calculate_빼기(String source, int expected) {
     assertCalculateWithGivenExpression(source, expected);
   }
 
-  @Test
-  void calculate_피연산자_두개_곱하기() {
-    assertCalculateWithGivenExpression("2 * 4", 8);
-  }
+  @ParameterizedTest
+  @CsvSource(value = {"1 * 1:1", "3 * 2 * 2:12", "10 * 3 * 4:120"}, delimiter = ':')
+  void calculate_곱하기(String source, int expected) {
+    assertCalculateWithGivenExpression(source, expected);
+}
 
-  @Test
-  void calculate_피연산자_두개_나누기() {
-    assertCalculateWithGivenExpression("9 / 3", 3);
+  @ParameterizedTest
+  @CsvSource(value = {"1 / 1:1", "6 / 2:3", "12 / 3:4"}, delimiter = ':')
+  void calculate_피연산자_두개_나누기(String source, int expected) {
+    assertCalculateWithGivenExpression(source, expected);
   }
 
   @Test
