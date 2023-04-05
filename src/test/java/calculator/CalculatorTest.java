@@ -105,14 +105,7 @@ class CalculatorTest {
   @Test
   void calculate_expression에_숫자_연산자가_아닌값이_포함되어있으면_예외를_발생한다() {
     assertThatThrownBy(() -> {
-      assertCalculateWithGivenExpression("a + b", 12);
-    }).isInstanceOf(IllegalArgumentException.class);
-  }
-
-  @Test
-  void calculate_expression에_숫자_연산자가_아닌값이_피연산자로_존재하면_예외_발생() {
-    assertThatThrownBy(() -> {
-      assertCalculateWithGivenExpression("a + 1", 12);
+      assertCalculateWithGivenExpression("a + b + 1 * 2", 12);
     }).isInstanceOf(IllegalArgumentException.class);
   }
 
