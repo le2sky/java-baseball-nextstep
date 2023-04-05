@@ -53,16 +53,21 @@ class CalculatorTest {
     assertCalculateWithGivenExpression("9 + 3 - 7", 5);
   }
 
+  @Test
+  void calculate_더하기_빼기_곱하기_복합식() {
+    assertCalculateWithGivenExpression("9 + 3 * 2 * 3 - 1", 71);
+  }
+
 
   private static class Calculator {
 
     public int calculate(String expression) {
       Queue<String> operation = Arrays.stream(expression.split(" "))
-          .filter(s -> s.equals("+") || s.equals("-"))
+          .filter(s -> s.equals("+") || s.equals("-") || s.equals("*"))
           .collect(Collectors.toCollection(LinkedList::new));
 
       List<String> operand = Arrays.stream(expression.split(" "))
-          .filter(s -> !s.equals("+") && !s.equals("-"))
+          .filter(s -> !s.equals("+") && !s.equals("-") && !s.equals("*"))
           .collect(Collectors.toList());
 
       int sum = Integer.parseInt(operand.get(0));
@@ -77,6 +82,8 @@ class CalculatorTest {
           sum += Integer.parseInt(target);
         } else if (op.equals("-")) {
           sum -= Integer.parseInt(target);
+        } else if (op.equals("*")) {
+          sum *= Integer.parseInt(target);
         }
       }
       return sum;
