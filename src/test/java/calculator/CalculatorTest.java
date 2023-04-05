@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
@@ -83,9 +84,20 @@ class CalculatorTest {
     }).isInstanceOf(IllegalArgumentException.class);
   }
 
+  @Test
+  void calculate_expression_에_null이_들어오면_예외를_발생한다() {
+    assertThatThrownBy(() -> {
+      assertCalculateWithGivenExpression(null, 12);
+    }).isInstanceOf(IllegalArgumentException.class);
+  }
+
   private static class Calculator {
 
     public int calculate(String expression) {
+      if(Optional.ofNullable(expression).isEmpty()) {
+        throw new IllegalArgumentException();
+      }
+
       Queue<String> operation = Arrays.stream(expression.split(" "))
           .filter(s -> s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/"))
           .collect(Collectors.toCollection(LinkedList::new));
