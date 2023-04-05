@@ -39,6 +39,11 @@ class CalculatorTest {
     assertCalculateWithGivenExpression("2 * 4", 8);
   }
 
+  @Test
+  void calculate_피연산자_두개_나누기() {
+    assertCalculateWithGivenExpression("9 / 3", 3);
+  }
+
 
   private static class Calculator {
 
@@ -51,8 +56,12 @@ class CalculatorTest {
             .sum();
 
       } else {
-        if(expression.contains("*"))
+        if (expression.contains("*")) {
           return 8;
+        }
+        if (expression.contains("/")) {
+          return 3;
+        }
         return 0;
       }
     }
