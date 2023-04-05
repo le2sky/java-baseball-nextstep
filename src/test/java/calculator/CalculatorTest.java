@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class CalculatorTest {
 
@@ -21,14 +23,10 @@ class CalculatorTest {
     calculator = new Calculator();
   }
 
-  @Test
-  void calculate_피연산자_두개_더하기() {
-    assertCalculateWithGivenExpression("1 + 1", 2);
-  }
-
-  @Test
-  void calculate_피연산자_세개_더하기() {
-    assertCalculateWithGivenExpression("1 + 1 + 1", 3);
+  @ParameterizedTest
+  @CsvSource(value = {"1 + 1:2", "1 + 1 + 1:3", "2 + 3 + 4 + 5:14"}, delimiter = ':')
+  void calculate_피연산자_두개_더하기(String source, int expected) {
+    assertCalculateWithGivenExpression(source, expected);
   }
 
   @Test
