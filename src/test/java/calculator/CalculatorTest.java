@@ -3,6 +3,7 @@ package calculator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,11 @@ class CalculatorTest {
   }
 
   @Test
+  void calculate_피연산자_세개_빼기() {
+    assertCalculateWithGivenExpression("3 - 2 - 2", -1);
+  }
+
+  @Test
   void calculate_피연산자_두개_곱하기() {
     assertCalculateWithGivenExpression("2 * 4", 8);
   }
@@ -62,7 +68,22 @@ class CalculatorTest {
         if (expression.contains("/")) {
           return 3;
         }
-        return 0;
+
+        List<String> op = Arrays.stream(expression.split(" "))
+            .collect(Collectors.toList());
+
+        int sum = 0;
+        for (String s : op) {
+          if (s.equals("-")) {
+            continue;
+          }
+          if (sum == 0) {
+            sum += Integer.parseInt(s);
+          } else {
+            sum += Integer.parseInt("-" + s);
+          }
+        }
+        return sum;
       }
     }
   }
