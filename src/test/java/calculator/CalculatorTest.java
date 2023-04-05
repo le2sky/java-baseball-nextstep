@@ -3,7 +3,9 @@ package calculator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -46,41 +48,38 @@ class CalculatorTest {
     assertCalculateWithGivenExpression("9 / 3", 3);
   }
 
+  @Test
+  void calculate_더하기_빼기_복합식() {
+    assertCalculateWithGivenExpression("9 + 3 - 7", 5);
+  }
+
 
   private static class Calculator {
 
     public int calculate(String expression) {
-      if (expression.contains("+")) {
-        return Arrays.stream(expression.split(" "))
-            .filter(s -> !s.equals("+"))
-            .collect(Collectors.toList()).stream()
-            .mapToInt(Integer::parseInt)
-            .sum();
+      Queue<String> operation = Arrays.stream(expression.split(" "))
+          .filter(s -> s.equals("+") || s.equals("-"))
+          .collect(Collectors.toCollection(LinkedList::new));
 
-      } else {
-        if (expression.contains("*")) {
-          return 8;
-        }
-        if (expression.contains("/")) {
-          return 3;
-        }
+      List<String> operand = Arrays.stream(expression.split(" "))
+          .filter(s -> !s.equals("+") && !s.equals("-"))
+          .collect(Collectors.toList());
 
-        List<String> op = Arrays.stream(expression.split(" "))
-            .collect(Collectors.toList());
+      int sum = Integer.parseInt(operand.get(0));
+      for (int i = 1; i < operand.size(); i++) {
+        String op = operation.poll();
+        String target = operand.get(i);
 
-        int sum = 0;
-        for (String s : op) {
-          if (s.equals("-")) {
-            continue;
-          }
-          if (sum == 0) {
-            sum += Integer.parseInt(s);
-          } else {
-            sum += Integer.parseInt("-" + s);
-          }
+        if (op == null) {
+          break;
         }
-        return sum;
+        if (op.equals("+")) {
+          sum += Integer.parseInt(target);
+        } else if (op.equals("-")) {
+          sum -= Integer.parseInt(target);
+        }
       }
+      return sum;
     }
   }
 }
