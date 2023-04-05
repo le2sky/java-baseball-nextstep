@@ -91,6 +91,14 @@ class CalculatorTest {
     }).isInstanceOf(IllegalArgumentException.class);
   }
 
+  @Test
+  void calculate_expression_에_빈문자열이_들어오면_예외를_발생한다() {
+    assertThatThrownBy(() -> {
+      assertCalculateWithGivenExpression("", 12);
+    }).isInstanceOf(IllegalArgumentException.class);
+  }
+
+
   private static class Calculator {
 
     public int calculate(String expression) {
