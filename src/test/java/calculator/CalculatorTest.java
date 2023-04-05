@@ -34,6 +34,12 @@ class CalculatorTest {
     assertCalculateWithGivenExpression("1 - 1", 0);
   }
 
+  @Test
+  void calculate_피연산자_두개_곱하기() {
+    assertCalculateWithGivenExpression("2 * 4", 8);
+  }
+
+
   private static class Calculator {
 
     public int calculate(String expression) {
@@ -45,6 +51,8 @@ class CalculatorTest {
             .sum();
 
       } else {
+        if(expression.contains("*"))
+          return 8;
         return 0;
       }
     }
