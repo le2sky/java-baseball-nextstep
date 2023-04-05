@@ -75,6 +75,14 @@ class CalculatorTest {
     }).isInstanceOf(IllegalArgumentException.class);
   }
 
+  @ParameterizedTest
+  @ValueSource(strings = {"1 1", "2 3", "1 2", "1 2 3"})
+  void calculate_expression_에_연산자가_없다면_예외를_발생한다(String source) {
+    assertThatThrownBy(() -> {
+      assertCalculateWithGivenExpression(source, 12);
+    }).isInstanceOf(IllegalArgumentException.class);
+  }
+
   private static class Calculator {
 
     public int calculate(String expression) {
@@ -86,7 +94,7 @@ class CalculatorTest {
           .filter(s -> !s.equals("+") && !s.equals("-") && !s.equals("*") && !s.equals("/"))
           .collect(Collectors.toList());
 
-      if (operand.size() == 0) {
+      if (operand.size() == 0 || operation.size() == 0) {
         throw new IllegalArgumentException();
       }
 
