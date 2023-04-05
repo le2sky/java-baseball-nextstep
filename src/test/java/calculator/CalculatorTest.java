@@ -30,14 +30,10 @@ class CalculatorTest {
     assertCalculateWithGivenExpression(source, expected);
   }
 
-  @Test
-  void calculate_피연산자_두개_빼기() {
-    assertCalculateWithGivenExpression("1 - 1", 0);
-  }
-
-  @Test
-  void calculate_피연산자_세개_빼기() {
-    assertCalculateWithGivenExpression("3 - 2 - 2", -1);
+  @ParameterizedTest
+  @CsvSource(value = {"1 - 1:0", "3 - 2 - 2:-1", "10 - 3 - 4 - 1:2"}, delimiter = ':')
+  void calculate_피연산자_세개_빼기(String source, int expected) {
+    assertCalculateWithGivenExpression(source, expected);
   }
 
   @Test
