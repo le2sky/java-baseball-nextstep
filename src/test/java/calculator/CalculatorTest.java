@@ -1,6 +1,7 @@
 package calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class CalculatorTest {
 
@@ -42,7 +44,7 @@ class CalculatorTest {
   @CsvSource(value = {"1 * 1:1", "3 * 2 * 2:12", "10 * 3 * 4:120"}, delimiter = ':')
   void calculate_곱하기(String source, int expected) {
     assertCalculateWithGivenExpression(source, expected);
-}
+  }
 
   @ParameterizedTest
   @CsvSource(value = {"1 / 1:1", "6 / 2:3", "12 / 3:4"}, delimiter = ':')
@@ -65,6 +67,14 @@ class CalculatorTest {
     assertCalculateWithGivenExpression("9 + 3 * 2 / 2", 12);
   }
 
+  @ParameterizedTest
+  @ValueSource(strings = {"+ ", "-", "*", "/", " +", "* -", "+ "})
+  void calculate_expression_에_피연산자가_없다면_예외를_발생한다(String source) {
+    assertThatThrownBy(() -> {
+      assertCalculateWithGivenExpression(source, 12);
+    }).isInstanceOf(IllegalArgumentException.class);
+  }
+
   private static class Calculator {
 
     public int calculate(String expression) {
@@ -75,6 +85,10 @@ class CalculatorTest {
       List<String> operand = Arrays.stream(expression.split(" "))
           .filter(s -> !s.equals("+") && !s.equals("-") && !s.equals("*") && !s.equals("/"))
           .collect(Collectors.toList());
+
+      if (operand.size() == 0) {
+        throw new IllegalArgumentException();
+      }
 
       int sum = Integer.parseInt(operand.get(0));
       for (int i = 1; i < operand.size(); i++) {
