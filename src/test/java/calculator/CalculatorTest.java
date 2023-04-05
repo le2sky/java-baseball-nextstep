@@ -17,7 +17,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class CalculatorTest {
 
-
   private static Calculator calculator;
 
   private static void assertCalculateWithGivenExpression(String expression, int expected) {
@@ -110,6 +109,13 @@ class CalculatorTest {
     }).isInstanceOf(IllegalArgumentException.class);
   }
 
+  @Test
+  void calculate_expression에_숫자_연산자가_아닌값이_피연산자로_존재하면_예외_발생() {
+    assertThatThrownBy(() -> {
+      assertCalculateWithGivenExpression("a + 1", 12);
+    }).isInstanceOf(IllegalArgumentException.class);
+  }
+
   private static class Calculator {
 
     public int calculate(String expression) {
@@ -117,20 +123,17 @@ class CalculatorTest {
         throw new IllegalArgumentException();
       }
 
-      Queue<String> operation = Arrays.stream(expression.split(""))
-          .filter(s -> s.matches("[+*-/]"))
-          .collect(Collectors.toCollection(LinkedList::new));
-
-      System.out.println(operation);
-
-      List<String> operand = Arrays.stream(expression.replaceAll("[+*-/]", "").split(" "))
-          .filter(s -> s.matches("[0-9]+$"))
-          .collect(Collectors.toList());
-
-      for (String s : operand) {
-        System.out.println("s = " + s);
+      if (!expression.matches("[0-9\\s+*/-]+")) {
+        throw new IllegalArgumentException();
       }
 
+      Queue<String> operation = Arrays.stream(expression.split(""))
+          .filter(s -> s.matches("[+*/-]"))
+          .collect(Collectors.toCollection(LinkedList::new));
+
+      List<String> operand = Arrays.stream(expression.replaceAll("[+*/-]", "").split(" "))
+          .filter(s -> s.matches("[0-9]+"))
+          .collect(Collectors.toList());
 
       if (operand.size() == 0 || operation.size() == 0) {
         throw new IllegalArgumentException();
