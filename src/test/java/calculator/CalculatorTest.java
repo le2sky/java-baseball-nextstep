@@ -98,21 +98,32 @@ class CalculatorTest {
     }).isInstanceOf(IllegalArgumentException.class);
   }
 
+  @Test
+  void calculate_expression에_공백을_생략해도_정상적으로_계산된다() {
+    assertCalculateWithGivenExpression("1 + 4 -2 *3", 9);
+  }
 
   private static class Calculator {
 
     public int calculate(String expression) {
-      if(Optional.ofNullable(expression).isEmpty()) {
+      if (Optional.ofNullable(expression).isEmpty()) {
         throw new IllegalArgumentException();
       }
 
-      Queue<String> operation = Arrays.stream(expression.split(" "))
-          .filter(s -> s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/"))
+      Queue<String> operation = Arrays.stream(expression.split(""))
+          .filter(s -> s.matches("[+*-/]"))
           .collect(Collectors.toCollection(LinkedList::new));
 
-      List<String> operand = Arrays.stream(expression.split(" "))
-          .filter(s -> !s.equals("+") && !s.equals("-") && !s.equals("*") && !s.equals("/"))
+      System.out.println(operation);
+
+      List<String> operand = Arrays.stream(expression.replaceAll("[+*-/]", "").split(" "))
+          .filter(s -> s.matches("[0-9]+$"))
           .collect(Collectors.toList());
+
+      for (String s : operand) {
+        System.out.println("s = " + s);
+      }
+
 
       if (operand.size() == 0 || operation.size() == 0) {
         throw new IllegalArgumentException();
