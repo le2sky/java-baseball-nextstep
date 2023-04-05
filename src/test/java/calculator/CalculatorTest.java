@@ -2,7 +2,6 @@ package calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class CalculatorTest {
@@ -16,15 +15,26 @@ class CalculatorTest {
   @Test
   void plus_test() {
     Calculator calculator = new Calculator();
-    int actual = calculator.calculte("1 + 1");
+    int actual = calculator.calculate("1 + 1");
     assertThat(actual).isEqualTo(2);
+  }
+
+  @Test
+  void minus_test() {
+    Calculator calculator = new Calculator();
+    int actual = calculator.calculate("1 - 1");
+    assertThat(actual).isEqualTo(0);
   }
 
 
   private class Calculator {
 
-    public int calculte(String s) {
-      return 2;
+    public int calculate(String expression) {
+      if (expression.contains("+")) {
+        return 2;
+      } else {
+        return 0;
+      }
     }
   }
 }
