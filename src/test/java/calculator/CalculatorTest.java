@@ -12,6 +12,10 @@ class CalculatorTest {
 
   private static Calculator calculator;
 
+  private static void assertCalculateWithGivenExpression(String expression, int expected) {
+    assertThat(calculator.calculate(expression)).isEqualTo(expected);
+  }
+
   @BeforeAll
   static void beforeAll() {
     calculator = new Calculator();
@@ -19,21 +23,18 @@ class CalculatorTest {
 
   @Test
   void calculate_피연산자_두개_더하기() {
-    int actual = calculator.calculate("1 + 1");
-    assertThat(actual).isEqualTo(2);
+    assertCalculateWithGivenExpression("1 + 1", 2);
   }
 
   @Test
   void calculate_피연산자_세개_더하기() {
-    int actual = calculator.calculate("1 + 1 + 1");
-    assertThat(actual).isEqualTo(3);
-  }
-  @Test
-  void calculate_피연산자_두개_빼기() {
-    int actual = calculator.calculate("1 - 1");
-    assertThat(actual).isEqualTo(0);
+    assertCalculateWithGivenExpression("1 + 1 + 1", 3);
   }
 
+  @Test
+  void calculate_피연산자_두개_빼기() {
+    assertCalculateWithGivenExpression("1 - 1", 0);
+  }
 
   private static class Calculator {
 
