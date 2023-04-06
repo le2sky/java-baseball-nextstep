@@ -109,48 +109,138 @@ class CalculatorTest {
     }).isInstanceOf(IllegalArgumentException.class);
   }
 
+  interface Operation {
+
+    int execute(int acc, int target);
+  }
+
+  private static class Plus implements Operation {
+
+    @Override
+    public int execute(int acc, int target) {
+      return acc + target;
+    }
+  }
+
+
+  private static class Subtract implements Operation {
+
+    @Override
+    public int execute(int acc, int target) {
+      return acc - target;
+    }
+  }
+
+  private static class Multiply implements Operation {
+
+    @Override
+    public int execute(int acc, int target) {
+      return acc * target;
+    }
+  }
+
+  private static class Divide implements Operation {
+
+    @Override
+    public int execute(int acc, int target) {
+      return acc / target;
+    }
+  }
+
+  private static class Operations {
+
+    private final Queue<Operation> operations = new LinkedList<>();
+
+    public Operations(Operation... operations) {
+      if (operations.length == 0) {
+        throw new IllegalArgumentException();
+      }
+
+      this.operations.addAll(List.of(operations));
+    }
+
+    public Operations(Queue<Operation> operations) {
+      if (operations.isEmpty()) {
+        throw new IllegalArgumentException();
+      }
+
+      this.operations.addAll(operations);
+    }
+
+    public Operation nextOperation() {
+      return this.operations.poll();
+    }
+
+    public int size() {
+      return this.operations.size();
+    }
+  }
+
+  private static class OperationFactory {
+
+    public Operation getInstance(String key) {
+      switch (key) {
+        case "+":
+          return new Plus();
+        case "-":
+          return new Subtract();
+        case "*":
+          return new Multiply();
+        case "/":
+          return new Divide();
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
+  }
+
+
   private static class Calculator {
 
+
+    private final OperationFactory factory = new OperationFactory();
+
     public int calculate(String expression) {
-      if (Optional.ofNullable(expression).isEmpty()) {
-        throw new IllegalArgumentException();
-      }
+      checkNullExpression(expression);
+      checkValidExpression(expression);
 
-      if (!expression.matches("[0-9\\s+*/-]+")) {
-        throw new IllegalArgumentException();
-      }
-
-      Queue<String> operation = Arrays.stream(expression.split(""))
-          .filter(s -> s.matches("[+*/-]"))
-          .collect(Collectors.toCollection(LinkedList::new));
+      Operations operations = new Operations(parseOperation(expression));
 
       List<String> operand = Arrays.stream(expression.replaceAll("[+*/-]", "").split(" "))
           .filter(s -> s.matches("[0-9]+"))
           .collect(Collectors.toList());
 
-      if (operand.size() == 0 || operation.size() == 0) {
+      if (operand.size() == 0) {
         throw new IllegalArgumentException();
       }
 
       int sum = Integer.parseInt(operand.get(0));
       for (int i = 1; i < operand.size(); i++) {
-        String op = operation.poll();
-        String target = operand.get(i);
-
-        if (op == null) {
-          break;
-        }
-        if (op.equals("+")) {
-          sum += Integer.parseInt(target);
-        } else if (op.equals("-")) {
-          sum -= Integer.parseInt(target);
-        } else if (op.equals("*")) {
-          sum *= Integer.parseInt(target);
-        } else if (op.equals("/")) {
-          sum /= Integer.parseInt(target);
-        }
+        int target = Integer.parseInt(operand.get(i));
+        Operation operation = operations.nextOperation();
+        sum = operation.execute(sum, target);
       }
       return sum;
+    }
+
+    private Queue<Operation> parseOperation(String expression) {
+      Queue<Operation> operation = Arrays.stream(expression.split(""))
+          .filter(s -> s.matches("[+*/-]"))
+          .map(factory::getInstance)
+          .collect(Collectors.toCollection(LinkedList::new));
+      return operation;
+    }
+
+    private static void checkValidExpression(String expression) {
+      if (!expression.matches("[0-9\\s+*/-]+")) {
+        throw new IllegalArgumentException();
+      }
+    }
+
+    private static void checkNullExpression(String expression) {
+      if (Optional.ofNullable(expression).isEmpty()) {
+        throw new IllegalArgumentException();
+      }
     }
   }
 }
