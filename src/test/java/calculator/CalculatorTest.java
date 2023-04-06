@@ -197,7 +197,6 @@ class CalculatorTest {
 
   private static class Calculator {
 
-
     private final OperationFactory factory = new OperationFactory();
 
     public int calculate(String expression) {
@@ -224,11 +223,10 @@ class CalculatorTest {
     }
 
     private Queue<Operation> parseOperation(String expression) {
-      Queue<Operation> operation = Arrays.stream(expression.split(""))
+      return Arrays.stream(expression.split(""))
           .filter(s -> s.matches("[+*/-]"))
           .map(factory::getInstance)
           .collect(Collectors.toCollection(LinkedList::new));
-      return operation;
     }
 
     private static void checkValidExpression(String expression) {
