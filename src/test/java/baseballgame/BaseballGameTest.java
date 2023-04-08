@@ -34,6 +34,21 @@ class BaseballGameTest {
         assertJudge(source, "2스트라이크");
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"123", "653", "173"})
+    void judge_한가지_수가_정답과_같은_자리에_있으면_1스트라이크(String source) {
+        baseballGame.setAnswer("283");
+        assertJudge(source, "1스트라이크");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"123", "653", "173"})
+    void judge_0가지_수가_정답과_같은_자리에_있으면_빈문자열(String source) {
+        baseballGame.setAnswer("469");
+        assertJudge(source, "");
+    }
+
+
     private static class BaseballGame {
 
         private String answer;
@@ -54,6 +69,9 @@ class BaseballGameTest {
                 }
             }
 
+            if (strike == 0) {
+                return "";
+            }
             return strike + "스트라이크";
         }
 
