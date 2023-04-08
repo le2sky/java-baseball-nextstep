@@ -62,17 +62,21 @@ class BaseballGameTest {
         }
 
         public String judge(String target) {
+            int strike = getStrike(target);
+            if (strike == 0) {
+                return "";
+            }
+            return strike + "스트라이크";
+        }
+
+        private int getStrike(String target) {
             int strike = 0;
             for (int i = 0; i < target.length(); i++) {
                 if (isStrike(target.charAt(i), i)) {
                     strike++;
                 }
             }
-
-            if (strike == 0) {
-                return "";
-            }
-            return strike + "스트라이크";
+            return strike;
         }
 
         private boolean isStrike(char target, int targetIndex) {
