@@ -51,7 +51,7 @@ class BaseballGameTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"123456", "1234", "12", "1", ""})
+    @ValueSource(strings = {"123456", "1234", "12", "1"})
     void judge_정답이_3자리_수가_아니면_예외를_발생한다(String source) {
         assertThatThrownBy(() -> {
             baseballGame.judge(source);
@@ -66,6 +66,16 @@ class BaseballGameTest {
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("정답을 입력해주세요.");
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"ab2", "1ab", "abc", "1a3", "!!!", "@@@", "   ", "1 2","12 "})
+    void judge_정답에_숫자가_아닌_값이_포함되면_예외를_발생한다(String source) {
+        assertThatThrownBy(() -> {
+            baseballGame.judge(source);
+        }).isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("정답에는 숫자만 입력할 수 있습니다.");
+    }
+
 
     private static class BaseballGame {
 
@@ -82,6 +92,9 @@ class BaseballGameTest {
         public String judge(String target) {
             if (Optional.ofNullable(target).isEmpty()) {
                 throw new IllegalArgumentException("정답을 입력해주세요.");
+            }
+            if (!target.matches("[1-9]+")) {
+                throw new IllegalArgumentException("정답에는 숫자만 입력할 수 있습니다.");
             }
             if (target.length() != 3) {
                 throw new IllegalArgumentException("정답은 3자리의 수입니다.");
