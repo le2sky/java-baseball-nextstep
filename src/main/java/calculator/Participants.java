@@ -5,21 +5,21 @@ import java.util.Queue;
 
 class Participants<T> {
 
-  private final Queue<T> participants = new LinkedList<>();
+    private final Queue<T> participants = new LinkedList<>();
 
-  public Participants(Queue<T> participants) {
-    if (participants.isEmpty()) {
-      throw new IllegalArgumentException();
+    public Participants(Queue<T> participants) {
+        if (participants.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        this.participants.addAll(participants);
     }
 
-    this.participants.addAll(participants);
-  }
+    public T nextParticipant() {
+        return this.participants.poll();
+    }
 
-  public T nextParticipant() {
-    return this.participants.poll();
-  }
-
-  public boolean isEmpty() {
-    return participants.isEmpty();
-  }
+    public boolean isEmpty() {
+        return participants.isEmpty();
+    }
 }

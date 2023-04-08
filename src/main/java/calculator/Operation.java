@@ -2,5 +2,5 @@ package calculator;
 
 interface Operation {
 
-  int execute(int acc, int target);
+    int execute(int acc, int target);
 }
