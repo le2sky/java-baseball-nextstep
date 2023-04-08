@@ -2,21 +2,23 @@ package baseballgame;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class BaseballGameTest {
 
-    private static BaseballGame baseballGame;
+    private BaseballGame baseballGame;
 
-    private static void assertJudge(String source, String expected) {
+    private void assertJudge(String source, String expected) {
         String actual = baseballGame.judge(source);
         assertThat(actual).isEqualTo(expected);
     }
 
-    @BeforeAll
-    static void setUp() {
-        baseballGame = new BaseballGame();
+    @BeforeEach
+    void setUp() {
+        baseballGame = new BaseballGame("123");
     }
 
     @Test
@@ -24,18 +26,39 @@ class BaseballGameTest {
         assertJudge("123", "3스트라이크");
     }
 
-    @Test
-    void judge_두가지_수가_정답과_같은_자리에_있으면_2스트라이크() {
-        assertJudge("153", "2스트라이크");
+
+    @ParameterizedTest
+    @ValueSource(strings = {"123", "653", "183"})
+    void judge_두가지_수가_정답과_같은_자리에_있으면_2스트라이크(String source) {
+        baseballGame.setAnswer("153");
+        assertJudge(source, "2스트라이크");
     }
 
     private static class BaseballGame {
 
-        public String judge(String s) {
-            if (s.equals("153")) {
-                return "2스트라이크";
+        private String answer;
+
+        public BaseballGame(String answer) {
+            this.answer = answer;
+        }
+
+        public void setAnswer(String answer) {
+            this.answer = answer;
+        }
+
+        public String judge(String target) {
+            int strike = 0;
+            for (int i = 0; i < target.length(); i++) {
+                if (isStrike(target.charAt(i), i)) {
+                    strike++;
+                }
             }
-            return "3스트라이크";
+
+            return strike + "스트라이크";
+        }
+
+        private boolean isStrike(char target, int targetIndex) {
+            return answer.indexOf(target) == targetIndex;
         }
     }
 }
