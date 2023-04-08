@@ -3,7 +3,10 @@ package baseballgame;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -76,6 +79,12 @@ class BaseballGameTest {
         assertJudgeThrowIllegalArgumentExceptionWithMessage(source, "정답에는 숫자만 입력할 수 있습니다.");
     }
 
+    @Test
+    void judge_정답에_같은_수가_포함되어_있으면_예외를_발생한다() {
+        assertJudgeThrowIllegalArgumentExceptionWithMessage("322", "정답은 서로 다른 숫자입니다.");
+    }
+
+
     private static class BaseballGame {
 
         private String answer;
@@ -89,7 +98,7 @@ class BaseballGameTest {
         }
 
         public String judge(String target) {
-            chechUserGuess(target);
+            checkUserGuess(target);
             int strike = getStrike(target);
             if (strike == 0) {
                 return "";
@@ -97,7 +106,7 @@ class BaseballGameTest {
             return strike + "스트라이크";
         }
 
-        private static void chechUserGuess(String target) {
+        private static void checkUserGuess(String target) {
             if (Optional.ofNullable(target).isEmpty() || target.isEmpty()) {
                 throw new IllegalArgumentException("정답을 입력해주세요.");
             }
@@ -106,6 +115,12 @@ class BaseballGameTest {
             }
             if (target.length() != 3) {
                 throw new IllegalArgumentException("정답은 3자리의 수입니다.");
+            }
+
+            Set<String> set = Arrays.stream(target.split(""))
+                .collect(Collectors.toSet());
+            if (set.size() != 3) {
+                throw new IllegalArgumentException("정답은 서로 다른 숫자입니다.");
             }
         }
 
