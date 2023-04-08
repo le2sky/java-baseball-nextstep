@@ -1,6 +1,7 @@
 package baseballgame;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,15 @@ class BaseballGameTest {
         assertJudge(source, "");
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"123456", "1234", "12", "1", ""})
+    void judge_정답이_3자리_수가_아니면_예외를_발생한다(String source) {
+        assertThatThrownBy(() -> {
+            baseballGame.judge(source);
+        }).isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("정답은 3자리의 수입니다.");
+    }
+
 
     private static class BaseballGame {
 
@@ -62,6 +72,10 @@ class BaseballGameTest {
         }
 
         public String judge(String target) {
+            if (target.length() != 3) {
+                throw new IllegalArgumentException("정답은 3자리의 수입니다.");
+            }
+
             int strike = getStrike(target);
             if (strike == 0) {
                 return "";
