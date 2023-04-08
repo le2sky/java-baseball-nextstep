@@ -18,6 +18,14 @@ class BaseballGameTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    private void assertJudgeThrowIllegalArgumentExceptionWithMessage(String source,
+        String message) {
+        assertThatThrownBy(() -> {
+            baseballGame.judge(source);
+        }).isInstanceOf(IllegalArgumentException.class)
+            .hasMessage(message);
+    }
+
     @BeforeEach
     void setUp() {
         baseballGame = new BaseballGame("123");
@@ -53,32 +61,19 @@ class BaseballGameTest {
     @ParameterizedTest
     @ValueSource(strings = {"123456", "1234", "12", "1"})
     void judge_정답이_3자리_수가_아니면_예외를_발생한다(String source) {
-        assertThatThrownBy(() -> {
-            baseballGame.judge(source);
-        }).isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("정답은 3자리의 수입니다.");
+        assertJudgeThrowIllegalArgumentExceptionWithMessage(source, "정답은 3자리의 수입니다.");
     }
 
     @Test
     void judge_정답이_null이나_빈_문자열인_경우_예외를_발생한다() {
-        assertThatThrownBy(() -> {
-            baseballGame.judge(null);
-        }).isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("정답을 입력해주세요.");
-
-        assertThatThrownBy(() -> {
-            baseballGame.judge("");
-        }).isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("정답을 입력해주세요.");
+        assertJudgeThrowIllegalArgumentExceptionWithMessage(null, "정답을 입력해주세요.");
+        assertJudgeThrowIllegalArgumentExceptionWithMessage("", "정답을 입력해주세요.");
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"ab2", "1ab", "abc", "1a3", "!!!", "@@@", "   ", "1 2", "12 "})
     void judge_정답에_숫자가_아닌_값이_포함되면_예외를_발생한다(String source) {
-        assertThatThrownBy(() -> {
-            baseballGame.judge(source);
-        }).isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("정답에는 숫자만 입력할 수 있습니다.");
+        assertJudgeThrowIllegalArgumentExceptionWithMessage(source, "정답에는 숫자만 입력할 수 있습니다.");
     }
 
     private static class BaseballGame {
@@ -94,6 +89,15 @@ class BaseballGameTest {
         }
 
         public String judge(String target) {
+            chechUserGuess(target);
+            int strike = getStrike(target);
+            if (strike == 0) {
+                return "";
+            }
+            return strike + "스트라이크";
+        }
+
+        private static void chechUserGuess(String target) {
             if (Optional.ofNullable(target).isEmpty() || target.isEmpty()) {
                 throw new IllegalArgumentException("정답을 입력해주세요.");
             }
@@ -103,12 +107,6 @@ class BaseballGameTest {
             if (target.length() != 3) {
                 throw new IllegalArgumentException("정답은 3자리의 수입니다.");
             }
-
-            int strike = getStrike(target);
-            if (strike == 0) {
-                return "";
-            }
-            return strike + "스트라이크";
         }
 
         private int getStrike(String target) {
