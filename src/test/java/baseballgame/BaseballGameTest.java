@@ -85,6 +85,39 @@ class BaseballGameTest {
     }
 
 
+    private static class UserGuess {
+
+        private final String guess;
+
+        public UserGuess(String guess) {
+            checkUserGuess(guess);
+            this.guess = guess;
+        }
+
+
+        public String getGuess() {
+            return guess;
+        }
+
+        private void checkUserGuess(String guess) {
+            if (Optional.ofNullable(guess).isEmpty() || guess.isEmpty()) {
+                throw new IllegalArgumentException("정답을 입력해주세요.");
+            }
+            if (!guess.matches("[1-9]+")) {
+                throw new IllegalArgumentException("정답에는 숫자만 입력할 수 있습니다.");
+            }
+            if (guess.length() != 3) {
+                throw new IllegalArgumentException("정답은 3자리의 수입니다.");
+            }
+
+            Set<String> set = Arrays.stream(guess.split(""))
+                .collect(Collectors.toSet());
+            if (set.size() != 3) {
+                throw new IllegalArgumentException("정답은 서로 다른 숫자입니다.");
+            }
+        }
+    }
+
     private static class BaseballGame {
 
         private String answer;
@@ -98,33 +131,17 @@ class BaseballGameTest {
         }
 
         public String judge(String target) {
-            checkUserGuess(target);
-            int strike = getStrike(target);
+            UserGuess userGuess = new UserGuess(target);
+            int strike = getStrike(userGuess);
             if (strike == 0) {
                 return "";
             }
             return strike + "스트라이크";
         }
 
-        private static void checkUserGuess(String target) {
-            if (Optional.ofNullable(target).isEmpty() || target.isEmpty()) {
-                throw new IllegalArgumentException("정답을 입력해주세요.");
-            }
-            if (!target.matches("[1-9]+")) {
-                throw new IllegalArgumentException("정답에는 숫자만 입력할 수 있습니다.");
-            }
-            if (target.length() != 3) {
-                throw new IllegalArgumentException("정답은 3자리의 수입니다.");
-            }
 
-            Set<String> set = Arrays.stream(target.split(""))
-                .collect(Collectors.toSet());
-            if (set.size() != 3) {
-                throw new IllegalArgumentException("정답은 서로 다른 숫자입니다.");
-            }
-        }
-
-        private int getStrike(String target) {
+        private int getStrike(UserGuess userGuess) {
+            String target = userGuess.getGuess();
             int strike = 0;
             for (int i = 0; i < target.length(); i++) {
                 if (isStrike(target.charAt(i), i)) {
