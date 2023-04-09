@@ -138,32 +138,37 @@ class BaseballGameTest {
 
         public String judge(String target) {
             UserGuess userGuess = new UserGuess(target);
-            int strike = getStrike(userGuess);
+            RoundResult roundResult = new RoundResult(getStrike(userGuess), getBall(userGuess));
+            if (roundResult.isNothing()) {
+                return "낫싱";
+            }
 
-            String target2 = userGuess.getGuess();
+            return buildMessage(roundResult);
+        }
+
+        private String buildMessage(RoundResult roundResult) {
+            String strikeString = buildMessageWithMatchCount(roundResult.getStrike(), "스트라이크 ");
+            String ballString = buildMessageWithMatchCount(roundResult.getBall(), "볼");
+            return (strikeString + ballString).trim();
+        }
+
+        private String buildMessageWithMatchCount(int count, String postfix) {
+            if (count == 0) {
+                return "";
+            }
+            return count + postfix;
+        }
+
+        private int getBall(UserGuess userGuess) {
+            String target = userGuess.getGuess();
             int ball = 0;
-            for (int i = 0; i < target2.length(); i++) {
-                String ch = String.valueOf(target2.charAt(i));
+            for (int i = 0; i < target.length(); i++) {
+                String ch = String.valueOf(target.charAt(i));
                 if (answer.contains(ch)) {
                     ball++;
                 }
             }
-
-            if (strike == 0 && ball == 0) {
-                return "낫싱";
-            }
-
-            String strikeString = "";
-            if (strike > 0) {
-                strikeString = strike + "스트라이크 ";
-            }
-
-            String ballString = "";
-            if (ball - strike > 0) {
-                ballString = (ball - strike) + "볼";
-            }
-
-            return (strikeString + ballString).trim();
+            return ball;
         }
 
 
@@ -180,6 +185,30 @@ class BaseballGameTest {
 
         private boolean isStrike(char target, int targetIndex) {
             return answer.indexOf(target) == targetIndex;
+        }
+
+        private class RoundResult {
+
+            private final int strike;
+            private final int ball;
+
+
+            public RoundResult(int strike, int ball) {
+                this.strike = strike;
+                this.ball = ball - strike;
+            }
+
+            public int getStrike() {
+                return strike;
+            }
+
+            public int getBall() {
+                return ball;
+            }
+
+            public boolean isNothing() {
+                return strike == 0 && ball == 0;
+            }
         }
     }
 }
