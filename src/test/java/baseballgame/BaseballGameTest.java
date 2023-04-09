@@ -48,14 +48,14 @@ class BaseballGameTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"123", "653", "173"})
+    @ValueSource(strings = {"297", "684", "173"})
     void judge_한가지_수가_정답과_같은_자리에_있으면_1스트라이크(String source) {
         baseballGame.setAnswer("283");
         assertJudge(source, "1스트라이크");
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"123", "653", "173"})
+    @ValueSource(strings = {"123", "321", "872"})
     void judge_0가지_수가_정답과_같은_자리에_있으면_빈문자열(String source) {
         baseballGame.setAnswer("469");
         assertJudge(source, "");
@@ -82,6 +82,12 @@ class BaseballGameTest {
     @Test
     void judge_정답에_같은_수가_포함되어_있으면_예외를_발생한다() {
         assertJudgeThrowIllegalArgumentExceptionWithMessage("322", "정답은 서로 다른 숫자입니다.");
+    }
+
+    @Test
+    void judge_세가지_수가_다른_자리에_있으면_3볼이다() {
+        baseballGame.setAnswer("321");
+        assertJudge("132", "3볼");
     }
 
 
@@ -133,10 +139,31 @@ class BaseballGameTest {
         public String judge(String target) {
             UserGuess userGuess = new UserGuess(target);
             int strike = getStrike(userGuess);
-            if (strike == 0) {
+
+            String target2 = userGuess.getGuess();
+            int ball = 0;
+            for (int i = 0; i < target2.length(); i++) {
+                String ch = String.valueOf(target2.charAt(i));
+                if (answer.contains(ch)) {
+                    ball++;
+                }
+            }
+
+            if (strike == 0 && ball == 0) {
                 return "";
             }
-            return strike + "스트라이크";
+
+            String strikeString = "";
+            if (strike > 0) {
+                strikeString = strike + "스트라이크 ";
+            }
+
+            String ballString = "";
+            if (ball - strike > 0) {
+                ballString = (ball - strike) + "볼";
+            }
+
+            return (strikeString + ballString).trim();
         }
 
 
