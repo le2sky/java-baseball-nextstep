@@ -56,9 +56,9 @@ class BaseballGameTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"123", "321", "872"})
-    void judge_0가지_수가_정답과_같은_자리에_있으면_빈문자열(String source) {
+    void judge_0가지_수가_정답과_같은_자리에_있으면_낫싱(String source) {
         baseballGame.setAnswer("469");
-        assertJudge(source, "");
+        assertJudge(source, "낫싱");
     }
 
     @ParameterizedTest
@@ -150,7 +150,7 @@ class BaseballGameTest {
             }
 
             if (strike == 0 && ball == 0) {
-                return "";
+                return "낫싱";
             }
 
             String strikeString = "";
