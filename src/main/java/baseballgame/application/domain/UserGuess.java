@@ -1,4 +1,4 @@
-package baseballgame;
+package baseballgame.application.domain;
 
 import java.util.Arrays;
 import java.util.Optional;

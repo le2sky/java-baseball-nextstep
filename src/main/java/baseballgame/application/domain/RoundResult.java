@@ -1,4 +1,4 @@
-package baseballgame;
+package baseballgame.application.domain;
 
 class RoundResult {
 

@@ -1,6 +1,6 @@
-package baseballgame;
+package baseballgame.application.domain;
 
-class BaseballGame {
+public class BaseballGame {
 
     private String answer;
 
