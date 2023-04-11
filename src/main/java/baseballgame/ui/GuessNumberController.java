@@ -1,12 +1,12 @@
 package baseballgame.ui;
 
-import baseballgame.application.UseCase;
+import baseballgame.application.api.GuessNumberUseCase;
 
 public class GuessNumberController {
 
-    private final UseCase guessNumberUseCase;
+    private final GuessNumberUseCase guessNumberUseCase;
 
-    public GuessNumberController(UseCase guessNumberUseCase) {
+    public GuessNumberController(GuessNumberUseCase guessNumberUseCase) {
         this.guessNumberUseCase = guessNumberUseCase;
     }
 }
