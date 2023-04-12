@@ -35,7 +35,6 @@ class BaseballGameTest {
         assertJudge("123", "3스트라이크");
     }
 
-
     @ParameterizedTest
     @ValueSource(strings = {"123", "653", "183"})
     void judge_두가지_수가_정답과_같은_자리에_있으면_2스트라이크(String source) {

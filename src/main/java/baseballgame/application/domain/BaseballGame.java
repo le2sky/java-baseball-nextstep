@@ -47,7 +47,6 @@ public class BaseballGame {
         return ball;
     }
 
-
     private int getStrike(UserGuess userGuess) {
         String target = userGuess.getGuess();
         int strike = 0;
