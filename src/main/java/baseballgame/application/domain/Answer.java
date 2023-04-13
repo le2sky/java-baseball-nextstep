@@ -12,10 +12,6 @@ public class Answer {
         return new Answer(answer);
     }
 
-    public String getAnswer() {
-        return answer;
-    }
-
     public boolean contain(String target) {
         return this.answer.contains(target);
     }
