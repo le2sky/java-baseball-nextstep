@@ -2,5 +2,5 @@ package baseballgame.application.api;
 
 public interface GuessNumberUseCase {
 
-    GuessNumberResponse execute();
+    GuessNumberResponse execute(String userGuess);
 }

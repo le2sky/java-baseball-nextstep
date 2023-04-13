@@ -1,6 +1,6 @@
 package baseballgame.application.domain;
 
-class RoundResult {
+public class RoundResult {
 
     private final int strike;
     private final int ball;
@@ -16,9 +16,5 @@ class RoundResult {
 
     public int getBall() {
         return ball;
-    }
-
-    public boolean isNothing() {
-        return strike == 0 && ball == 0;
     }
 }
