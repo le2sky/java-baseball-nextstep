@@ -13,14 +13,14 @@ class BaseballGameTest {
     private BaseballGame baseballGame;
 
     private void assertJudge(String source, String expected) {
-        String actual = baseballGame.judge(source);
+        String actual = baseballGame.judge(new UserGuess(source));
         assertThat(actual).isEqualTo(expected);
     }
 
     private void assertJudgeThrowIllegalArgumentExceptionWithMessage(String source,
         String message) {
         assertThatThrownBy(() -> {
-            baseballGame.judge(source);
+            baseballGame.judge(new UserGuess(source));
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessage(message);
     }

@@ -12,8 +12,7 @@ public class BaseballGame {
         this.answer = answer;
     }
 
-    public String judge(String target) {
-        UserGuess userGuess = new UserGuess(target);
+    public String judge(UserGuess userGuess) {
         RoundResult roundResult = new RoundResult(getStrike(userGuess), getBall(userGuess));
         if (roundResult.isNothing()) {
             return "낫싱";
