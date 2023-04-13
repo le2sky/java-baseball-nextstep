@@ -9,4 +9,8 @@ public class GuessNumberController {
     public GuessNumberController(GuessNumberUseCase guessNumberUseCase) {
         this.guessNumberUseCase = guessNumberUseCase;
     }
+
+    public void guessNumber(String userGuess) {
+        ResultView.renderResult(guessNumberUseCase.execute(userGuess));
+    }
 }
