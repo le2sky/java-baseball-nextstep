@@ -17,6 +17,15 @@ class BaseballGameController {
         return isGameOver;
     }
 
+    public void clear() {
+        isGameOver = false;
+    }
+
+    public boolean restart() {
+        String restart = InputView.readRestartCommand();
+        return restart.equals("1");
+    }
+
     public void guessNumber() {
         GuessNumberResponse response = guessNumberUseCase.execute(InputView.readUserGuess());
         ResultView.renderResult(response);

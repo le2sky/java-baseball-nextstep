@@ -9,8 +9,12 @@ public class ConsoleApplication {
     }
 
     public void run() {
+        baseballGameController.clear();
         while (!baseballGameController.isGameOver()) {
             baseballGameController.guessNumber();
+        }
+        if (baseballGameController.restart()) {
+            run();
         }
     }
 }
