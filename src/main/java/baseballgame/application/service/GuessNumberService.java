@@ -8,7 +8,6 @@ import baseballgame.application.domain.UserGuess;
 
 public class GuessNumberService implements GuessNumberUseCase {
 
-
     private final BaseballGame baseballGame;
 
     public GuessNumberService(BaseballGame baseballGame) {

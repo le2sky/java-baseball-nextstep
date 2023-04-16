@@ -2,7 +2,7 @@ package baseballgame.ui;
 
 import baseballgame.application.api.GuessNumberResponse;
 
-public class ResultView {
+class ResultView {
 
     public static void renderResult(GuessNumberResponse response) {
         if (response.getBall() + response.getStrike() == 0) {
