@@ -26,7 +26,8 @@ class BaseballGameTest {
     }
 
     private void givenAnswer(String answer) {
-        baseballGame = new BaseballGame(new Referee(Answer.withAnswer(answer)));
+        baseballGame = new BaseballGame(new Referee(Answer.withAnswer(answer)),
+            new AnswerGeneratorStub());
     }
 
     @Test

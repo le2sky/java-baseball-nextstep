@@ -2,9 +2,13 @@ package baseballgame.application.domain;
 
 public class Referee {
 
-    private final Answer answer;
+    private Answer answer;
 
     public Referee(Answer answer) {
+        this.answer = answer;
+    }
+
+    public void resetGame(Answer answer) {
         this.answer = answer;
     }
 
