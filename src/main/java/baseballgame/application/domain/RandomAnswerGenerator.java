@@ -5,6 +5,7 @@ import java.util.List;
 
 public class RandomAnswerGenerator implements AnswerGenerator {
 
+    @Override
     public Answer generate() {
         List<String> answer = new ArrayList<>();
         while (answer.size() != 3) {
