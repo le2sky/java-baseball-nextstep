@@ -2,14 +2,18 @@ package baseballgame.ui;
 
 import baseballgame.application.api.GuessNumberResponse;
 import baseballgame.application.api.GuessNumberUseCase;
+import baseballgame.application.api.ResetGameUseCase;
 
 class BaseballGameController {
 
     private final GuessNumberUseCase guessNumberUseCase;
+    private final ResetGameUseCase resetGameUseCase;
     private boolean isGameOver;
 
-    public BaseballGameController(GuessNumberUseCase guessNumberUseCase) {
+    public BaseballGameController(GuessNumberUseCase guessNumberUseCase,
+        ResetGameUseCase resetGameUseCase) {
         this.guessNumberUseCase = guessNumberUseCase;
+        this.resetGameUseCase = resetGameUseCase;
         this.isGameOver = false;
     }
 
@@ -18,6 +22,7 @@ class BaseballGameController {
     }
 
     public void clear() {
+        resetGameUseCase.execute();
         isGameOver = false;
     }
 

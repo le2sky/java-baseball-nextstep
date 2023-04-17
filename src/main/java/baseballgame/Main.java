@@ -5,9 +5,9 @@ import baseballgame.ui.ConsoleUIConfiguration;
 
 public class Main {
 
-    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+    public static void main(String[] args) {
         ConsoleApplication consoleApplication = ConsoleUIConfiguration.consoleApplication(
-            Configuration.guessNumberUseCase());
+            Configuration.guessNumberUseCase(), Configuration.resetGameUseCase());
         consoleApplication.run();
     }
 }
