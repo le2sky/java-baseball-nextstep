@@ -4,13 +4,13 @@ import baseballgame.application.api.GuessNumberResponse;
 import baseballgame.application.api.GuessNumberUseCase;
 import baseballgame.application.api.ResetGameUseCase;
 
-class BaseballGameController {
+class ConsoleBaseGameController {
 
     private final GuessNumberUseCase guessNumberUseCase;
     private final ResetGameUseCase resetGameUseCase;
     private boolean isGameOver;
 
-    public BaseballGameController(GuessNumberUseCase guessNumberUseCase,
+    public ConsoleBaseGameController(GuessNumberUseCase guessNumberUseCase,
         ResetGameUseCase resetGameUseCase) {
         this.guessNumberUseCase = guessNumberUseCase;
         this.resetGameUseCase = resetGameUseCase;

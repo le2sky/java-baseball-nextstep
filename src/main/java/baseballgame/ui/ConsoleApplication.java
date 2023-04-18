@@ -2,18 +2,18 @@ package baseballgame.ui;
 
 public class ConsoleApplication {
 
-    private final BaseballGameController baseballGameController;
+    private final ConsoleBaseGameController consoleBaseGameController;
 
-    public ConsoleApplication(BaseballGameController baseballGameController) {
-        this.baseballGameController = baseballGameController;
+    public ConsoleApplication(ConsoleBaseGameController consoleBaseGameController) {
+        this.consoleBaseGameController = consoleBaseGameController;
     }
 
     public void run() {
-        baseballGameController.clear();
-        while (!baseballGameController.isGameOver()) {
-            baseballGameController.guessNumber();
+        consoleBaseGameController.clear();
+        while (!consoleBaseGameController.isGameOver()) {
+            consoleBaseGameController.guessNumber();
         }
-        if (baseballGameController.restart()) {
+        if (consoleBaseGameController.restart()) {
             run();
         }
     }

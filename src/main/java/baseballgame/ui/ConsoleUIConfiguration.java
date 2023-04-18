@@ -11,8 +11,8 @@ public class ConsoleUIConfiguration {
             consoleBaseballGameController(guessNumberUseCase, resetGameUseCase));
     }
 
-    public static BaseballGameController consoleBaseballGameController(
+    public static ConsoleBaseGameController consoleBaseballGameController(
         GuessNumberUseCase guessNumberUseCase, ResetGameUseCase resetGameUseCase) {
-        return new BaseballGameController(guessNumberUseCase, resetGameUseCase);
+        return new ConsoleBaseGameController(guessNumberUseCase, resetGameUseCase);
     }
 }
