@@ -13,14 +13,35 @@ class BallTest {
         assertThat(ball.matchWith(answer)).isEqualTo(BallStatus.NOTHING);
     }
 
+    @Test
+    void 다른_자리지만_숫자가_일치하면_볼() {
+        Ball answer = new Ball(1, 1);
+        Ball ball = new Ball(2, 1);
+        assertThat(ball.matchWith(answer)).isEqualTo(BallStatus.BALL);
+    }
+
     private class Ball {
 
-        public Ball(int i, int i1) {
+        private final int position;
+        private final int number;
 
+        public Ball(int position, int number) {
+            this.position = position;
+            this.number = number;
         }
 
         public BallStatus matchWith(Ball answer) {
+            if(isBall(answer))
+                return BallStatus.BALL;
             return BallStatus.NOTHING;
+        }
+
+        private boolean isBall(Ball answer) {
+            return answer.getNumber() == this.getNumber();
+        }
+
+        private int getNumber() {
+            return number;
         }
     }
 }
