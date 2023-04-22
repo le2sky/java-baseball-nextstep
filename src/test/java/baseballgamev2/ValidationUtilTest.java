@@ -3,18 +3,21 @@ package baseballgamev2;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class ValidationUtilTest {
 
+    public static final int MAX_SIZE = 3;
+    public static final int MAX_NUMBER_RANGE = 9;
+    public static final int MIN_NUMBER_RANGE = 1;
+
     @Test
     void 숫자는_1에서9사이의_수_이다() {
-        assertThat(validateEach(1)).isTrue();
-        assertThat(validateEach(9)).isTrue();
-        assertThat(validateEach(10)).isFalse();
-        assertThat(validateEach(0)).isFalse();
+        assertThat(validateInRangeEach(1)).isTrue();
+        assertThat(validateInRangeEach(9)).isTrue();
+        assertThat(validateInRangeEach(10)).isFalse();
+        assertThat(validateInRangeEach(0)).isFalse();
     }
 
     @Test
@@ -38,24 +41,26 @@ class ValidationUtilTest {
     }
 
     private boolean validate(List<Integer> list) {
-        return validateSize(countInRange(list)) && validateDuplicate(list);
+        return validateInRange(list) && validateDuplicate(list);
     }
 
-    private boolean validateSize(long count) {
-        return count == 3;
+    private boolean validateInRange(List<Integer> list) {
+        return validateSize(list.stream()
+            .filter(this::validateInRangeEach)
+            .count());
     }
 
-    private long countInRange(List<Integer> list) {
-        return list.stream()
-            .filter(this::validateEach)
-            .count();
-    }
-
-    private boolean validateEach(int i) {
-        return i <= 9 && i >= 1;
+    private boolean validateInRangeEach(int i) {
+        return i <= MAX_NUMBER_RANGE && i >= MIN_NUMBER_RANGE;
     }
 
     private boolean validateDuplicate(List<Integer> list) {
-        return new HashSet<>(list).size() == list.size();
+        return validateSize(list.stream()
+            .distinct()
+            .count());
+    }
+
+    private boolean validateSize(long count) {
+        return count == MAX_SIZE;
     }
 }
