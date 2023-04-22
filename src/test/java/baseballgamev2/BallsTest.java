@@ -24,13 +24,19 @@ class BallsTest {
         assertThat(balls.play(target)).isEqualTo(BallStatus.BALL);
     }
 
+    @Test
+    void 같은_수가_같은_자리에_있다면_스트라이크() {
+        Balls balls = new Balls(Arrays.asList(1, 2, 3));
+        Ball target = new Ball(1, 1);
+        assertThat(balls.play(target)).isEqualTo(BallStatus.STRIKE);
+    }
+
     public static class Balls {
 
         private final List<Ball> balls;
 
         public Balls(List<Integer> list) {
             this.balls = mapToBalls(list);
-
         }
 
         private List<Ball> mapToBalls(List<Integer> list) {
@@ -38,6 +44,7 @@ class BallsTest {
             for (int i = 0; i < list.size(); i++) {
                 balls.add(new Ball(i + 1, list.get(i)));
             }
+
             return balls;
         }
 
