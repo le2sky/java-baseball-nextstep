@@ -27,7 +27,7 @@ class BallTest {
         assertThat(ball.matchWith(answer)).isEqualTo(BallStatus.STRIKE);
     }
 
-    private class Ball {
+    public static class Ball {
 
         private final int position;
         private final int number;
