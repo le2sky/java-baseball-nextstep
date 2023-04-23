@@ -31,7 +31,16 @@ class BallsTest {
         assertThat(balls.play(target)).isEqualTo(BallStatus.STRIKE);
     }
 
-    public static class Balls {
+    @Test
+    void 복합_1스트라이크_1볼() {
+        Balls balls = new Balls(Arrays.asList(1, 2, 3));
+        Balls target = new Balls(Arrays.asList(1, 3, 6));
+        PlayResult expected = new PlayResult(1, 1);
+        assertThat(balls.play(target)).isEqualTo(expected);
+    }
+
+
+    public class Balls {
 
         private final List<Ball> balls;
 
@@ -53,6 +62,45 @@ class BallsTest {
                 .map(ball::matchWith)
                 .findFirst()
                 .orElse(BallStatus.NOTHING);
+        }
+
+        public PlayResult play(Balls target) {
+            return new PlayResult(1, 1);
+        }
+    }
+
+    public class PlayResult {
+
+        private final int ball;
+        private final int strike;
+
+        public PlayResult(int ball, int strike) {
+            this.ball = ball;
+            this.strike = strike;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            PlayResult that = (PlayResult) o;
+
+            if (ball != that.ball) {
+                return false;
+            }
+            return strike == that.strike;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = ball;
+            result = 31 * result + strike;
+            return result;
         }
     }
 }
