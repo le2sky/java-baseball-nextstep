@@ -37,18 +37,18 @@ class BallTest {
             this.number = number;
         }
 
-        public BallStatus matchWith(Ball answer) {
-            if (isStrike(answer)) {
+        public BallStatus matchWith(Ball ball) {
+            if (isStrike(ball)) {
                 return BallStatus.STRIKE;
             }
-            if (answer.isBall(this.number)) {
+            if (ball.isBall(this.number)) {
                 return BallStatus.BALL;
             }
             return BallStatus.NOTHING;
         }
 
-        private boolean isStrike(Ball answer) {
-            return this.equals(answer);
+        private boolean isStrike(Ball ball) {
+            return this.equals(ball);
         }
 
         private boolean isBall(int number) {

@@ -32,13 +32,42 @@ class BallsTest {
     }
 
     @Test
-    void 복합_1스트라이크_1볼() {
+    void 같은_수가_같은_자리에_있다면_스트라이크2() {
+        Balls balls = new Balls(Arrays.asList(1, 2, 3));
+        Ball target = new Ball(2, 2);
+        assertThat(balls.play(target)).isEqualTo(BallStatus.STRIKE);
+    }
+
+    @Test
+    void 같은_수가_같은_자리에_있다면_스트라이크3() {
+        Balls balls = new Balls(Arrays.asList(1, 2, 3));
+        Ball target = new Ball(3, 3);
+        assertThat(balls.play(target)).isEqualTo(BallStatus.STRIKE);
+    }
+
+    @Test
+    void complex_1스트라이크_1볼() {
         Balls balls = new Balls(Arrays.asList(1, 2, 3));
         Balls target = new Balls(Arrays.asList(1, 3, 6));
         PlayResult expected = new PlayResult(1, 1);
         assertThat(balls.play(target)).isEqualTo(expected);
     }
 
+    @Test
+    void complex_2스트라이크() {
+        Balls balls = new Balls(Arrays.asList(1, 2, 3));
+        Balls target = new Balls(Arrays.asList(1, 2, 7));
+        PlayResult expected = new PlayResult(0, 2);
+        assertThat(balls.play(target)).isEqualTo(expected);
+    }
+
+    @Test
+    void complex_2볼() {
+        Balls balls = new Balls(Arrays.asList(1, 2, 3));
+        Balls target = new Balls(Arrays.asList(2, 8, 1));
+        PlayResult expected = new PlayResult(2, 0);
+        assertThat(balls.play(target)).isEqualTo(expected);
+    }
 
     public class Balls {
 
@@ -57,26 +86,56 @@ class BallsTest {
             return balls;
         }
 
+        public PlayResult play(Balls target) {
+            PlayResult playResult = new PlayResult(0, 0);
+            target.getBalls()
+                .forEach(ball -> increase(playResult, play(ball)));
+
+            return playResult;
+        }
+
         public BallStatus play(Ball ball) {
             return balls.stream()
                 .map(ball::matchWith)
+                .filter(this::isFoundAtLeastOne)
                 .findFirst()
                 .orElse(BallStatus.NOTHING);
         }
 
-        public PlayResult play(Balls target) {
-            return new PlayResult(1, 1);
+        private boolean isFoundAtLeastOne(BallStatus ballStatus) {
+            return !ballStatus.isNothing();
+        }
+
+        private void increase(PlayResult playResult, BallStatus ballStatus) {
+            if (ballStatus.isStrike()) {
+                playResult.increaseStrike();
+            }
+            if (ballStatus.isBall()) {
+                playResult.increaseBall();
+            }
+        }
+
+        private List<Ball> getBalls() {
+            return this.balls;
         }
     }
 
     public class PlayResult {
 
-        private final int ball;
-        private final int strike;
+        private int ball;
+        private int strike;
 
         public PlayResult(int ball, int strike) {
             this.ball = ball;
             this.strike = strike;
+        }
+
+        public void increaseBall() {
+            this.ball++;
+        }
+
+        public void increaseStrike() {
+            this.strike++;
         }
 
         @Override
