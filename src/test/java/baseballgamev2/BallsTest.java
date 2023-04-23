@@ -49,24 +49,24 @@ class BallsTest {
     void complex_1스트라이크_1볼() {
         Balls balls = new Balls(Arrays.asList(1, 2, 3));
         Balls target = new Balls(Arrays.asList(1, 3, 6));
-        PlayResult expected = new PlayResult(1, 1);
-        assertThat(balls.play(target)).isEqualTo(expected);
+        assertThat(balls.play(target).getBall()).isEqualTo(1);
+        assertThat(balls.play(target).getStrike()).isEqualTo(1);
     }
 
     @Test
     void complex_2스트라이크() {
         Balls balls = new Balls(Arrays.asList(1, 2, 3));
         Balls target = new Balls(Arrays.asList(1, 2, 7));
-        PlayResult expected = new PlayResult(0, 2);
-        assertThat(balls.play(target)).isEqualTo(expected);
+        assertThat(balls.play(target).getBall()).isEqualTo(0);
+        assertThat(balls.play(target).getStrike()).isEqualTo(2);
     }
 
     @Test
     void complex_2볼() {
         Balls balls = new Balls(Arrays.asList(1, 2, 3));
         Balls target = new Balls(Arrays.asList(2, 8, 1));
-        PlayResult expected = new PlayResult(2, 0);
-        assertThat(balls.play(target)).isEqualTo(expected);
+        assertThat(balls.play(target).getBall()).isEqualTo(2);
+        assertThat(balls.play(target).getStrike()).isEqualTo(0);
     }
 
     public class Balls {
@@ -97,12 +97,12 @@ class BallsTest {
         public BallStatus play(Ball ball) {
             return balls.stream()
                 .map(ball::matchWith)
-                .filter(this::isFoundAtLeastOne)
+                .filter(this::isMatchAtLeastOne)
                 .findFirst()
                 .orElse(BallStatus.NOTHING);
         }
 
-        private boolean isFoundAtLeastOne(BallStatus ballStatus) {
+        private boolean isMatchAtLeastOne(BallStatus ballStatus) {
             return !ballStatus.isNothing();
         }
 
@@ -138,28 +138,12 @@ class BallsTest {
             this.strike++;
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            PlayResult that = (PlayResult) o;
-
-            if (ball != that.ball) {
-                return false;
-            }
-            return strike == that.strike;
+        public int getBall() {
+            return ball;
         }
 
-        @Override
-        public int hashCode() {
-            int result = ball;
-            result = 31 * result + strike;
-            return result;
+        public int getStrike() {
+            return strike;
         }
     }
 }
