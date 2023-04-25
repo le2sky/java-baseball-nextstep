@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 
 class BallsTest {
 
-    public static final int GAME_OVER_CONDITION = 3;
-
     @Test
     void 아무것도_일치하지_않으면_낫싱() {
         Balls balls = new Balls(Arrays.asList(1, 2, 3));
@@ -135,34 +133,5 @@ class BallsTest {
         }
     }
 
-    public class PlayResult {
 
-        private int ball;
-        private int strike;
-
-        public PlayResult(int ball, int strike) {
-            this.ball = ball;
-            this.strike = strike;
-        }
-
-        public void increaseBall() {
-            this.ball++;
-        }
-
-        public void increaseStrike() {
-            this.strike++;
-        }
-
-        public int getBall() {
-            return ball;
-        }
-
-        public int getStrike() {
-            return strike;
-        }
-
-        public boolean isGameOver() {
-            return this.strike == GAME_OVER_CONDITION;
-        }
-    }
 }
