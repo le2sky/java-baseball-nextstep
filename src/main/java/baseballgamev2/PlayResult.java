@@ -6,9 +6,13 @@ public class PlayResult {
     private int ball;
     private int strike;
 
-    public PlayResult(int ball, int strike) {
-        this.ball = ball;
-        this.strike = strike;
+    private PlayResult() {
+        this.ball = 0;
+        this.strike = 0;
+    }
+
+    public static PlayResult without() {
+        return new PlayResult();
     }
 
     public void increaseBall() {
