@@ -9,11 +9,11 @@ public class Balls {
     private final int MAX_SIZE = 3;
 
     public Balls(List<Integer> list) {
+        validate(list);
         this.balls = mapToBalls(list);
     }
 
     private List<Ball> mapToBalls(List<Integer> list) {
-        validate(list);
         List<Ball> balls = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             balls.add(new Ball(i + 1, list.get(i)));
@@ -35,7 +35,7 @@ public class Balls {
     }
 
     public PlayResult play(Balls target) {
-        PlayResult playResult = new PlayResult(0, 0);
+        PlayResult playResult = PlayResult.without();
         target.getBalls()
             .forEach(ball -> increase(playResult, play(ball)));
 
