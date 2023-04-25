@@ -6,18 +6,32 @@ import java.util.List;
 public class Balls {
 
     private final List<Ball> balls;
+    private final int MAX_SIZE = 3;
 
     public Balls(List<Integer> list) {
         this.balls = mapToBalls(list);
     }
 
     private List<Ball> mapToBalls(List<Integer> list) {
+        validate(list);
         List<Ball> balls = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             balls.add(new Ball(i + 1, list.get(i)));
         }
 
         return balls;
+    }
+
+    private void validate(List<Integer> list) {
+        if (getNotDuplicatedNumberSize(list) != MAX_SIZE) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private long getNotDuplicatedNumberSize(List<Integer> list) {
+        return list.stream()
+            .distinct()
+            .count();
     }
 
     public PlayResult play(Balls target) {
