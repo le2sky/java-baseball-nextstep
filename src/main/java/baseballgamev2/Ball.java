@@ -8,11 +8,15 @@ public class Ball {
     public final int MIN_RANGE = 1;
 
     public Ball(int position, int number) {
+        validate(number);
+        this.position = position;
+        this.number = number;
+    }
+
+    private void validate(int number) {
         if (number > MAX_RANGE || number < MIN_RANGE) {
             throw new IllegalArgumentException();
         }
-        this.position = position;
-        this.number = number;
     }
 
     public BallStatus matchWith(Ball ball) {
