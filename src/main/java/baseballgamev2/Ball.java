@@ -4,8 +4,13 @@ public class Ball {
 
     private final int position;
     private final int number;
+    public final int MAX_RANGE = 9;
+    public final int MIN_RANGE = 1;
 
     public Ball(int position, int number) {
+        if (number > MAX_RANGE || number < MIN_RANGE) {
+            throw new IllegalArgumentException();
+        }
         this.position = position;
         this.number = number;
     }
