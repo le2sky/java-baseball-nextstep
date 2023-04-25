@@ -4,8 +4,8 @@ public class Ball {
 
     private final int position;
     private final int number;
-    public final int MAX_RANGE = 9;
-    public final int MIN_RANGE = 1;
+    private final int MAX_RANGE = 9;
+    private final int MIN_RANGE = 1;
 
     public Ball(int position, int number) {
         validate(number);
