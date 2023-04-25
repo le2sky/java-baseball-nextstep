@@ -26,5 +26,4 @@ class BallTest {
         Ball ball = new Ball(1, 1);
         assertThat(ball.matchWith(answer)).isEqualTo(BallStatus.STRIKE);
     }
-
 }
