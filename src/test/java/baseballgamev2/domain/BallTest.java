@@ -1,4 +1,4 @@
-package baseballgamev2;
+package baseballgamev2.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

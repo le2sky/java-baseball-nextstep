@@ -1,6 +1,6 @@
 package baseballgamev2.domain;
 
-public class Ball {
+class Ball {
 
     private final int position;
     private final int number;
