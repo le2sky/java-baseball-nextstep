@@ -2,6 +2,8 @@ package baseballgamev2;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import baseballgamev2.domain.Ball;
+import baseballgamev2.domain.Balls;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

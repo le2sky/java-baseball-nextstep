@@ -1,4 +1,4 @@
-package baseballgamev2;
+package baseballgamev2.domain;
 
 public enum BallStatus {
     BALL, STRIKE, NOTHING;
