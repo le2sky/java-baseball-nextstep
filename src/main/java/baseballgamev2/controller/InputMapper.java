@@ -1,6 +1,5 @@
 package baseballgamev2.controller;
 
-
 import baseballgamev2.domain.Balls;
 import java.util.Arrays;
 import java.util.List;
