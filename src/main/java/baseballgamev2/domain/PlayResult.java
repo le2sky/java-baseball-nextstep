@@ -11,24 +11,28 @@ public class PlayResult {
         this.strike = 0;
     }
 
-    public static PlayResult without() {
+    static PlayResult without() {
         return new PlayResult();
     }
 
-    public void increaseBall() {
+    void increaseBall() {
         this.ball++;
     }
 
-    public void increaseStrike() {
+    void increaseStrike() {
         this.strike++;
     }
 
     public int getBall() {
-        return ball;
+        return this.ball;
     }
 
     public int getStrike() {
-        return strike;
+        return this.strike;
+    }
+
+    public boolean isNothing() {
+        return this.strike + this.ball == 0;
     }
 
     public boolean isGameOver() {
