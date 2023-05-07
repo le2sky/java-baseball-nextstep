@@ -42,7 +42,7 @@ public class Balls {
         return playResult;
     }
 
-    public BallStatus play(Ball ball) {
+    BallStatus play(Ball ball) {
         return balls.stream()
             .map(ball::matchWith)
             .filter(this::isMatchAtLeastOne)

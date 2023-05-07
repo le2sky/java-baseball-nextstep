@@ -7,7 +7,7 @@ class Ball {
     private final int position;
     private final int number;
 
-    public Ball(int position, int number) {
+    Ball(int position, int number) {
         validate(number);
         this.position = position;
         this.number = number;
@@ -19,7 +19,7 @@ class Ball {
         }
     }
 
-    public BallStatus matchWith(Ball ball) {
+    BallStatus matchWith(Ball ball) {
         if (isStrike(ball)) {
             return BallStatus.STRIKE;
         }

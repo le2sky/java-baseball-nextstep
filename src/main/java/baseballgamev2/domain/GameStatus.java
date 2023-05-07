@@ -1,9 +1,10 @@
 package baseballgamev2.domain;
 
-public enum GameStatus {
+enum GameStatus {
+
     PLAY, END;
 
-    public boolean isEnd() {
+    boolean isEnd() {
         return this == END;
     }
 }

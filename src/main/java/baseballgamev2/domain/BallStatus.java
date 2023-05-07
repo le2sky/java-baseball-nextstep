@@ -1,17 +1,18 @@
 package baseballgamev2.domain;
 
-public enum BallStatus {
+enum BallStatus {
+
     BALL, STRIKE, NOTHING;
 
-    public boolean isStrike() {
+    boolean isStrike() {
         return this == BallStatus.STRIKE;
     }
 
-    public boolean isBall() {
+    boolean isBall() {
         return this == BallStatus.BALL;
     }
 
-    public boolean isNothing() {
+    boolean isNothing() {
         return this == BallStatus.NOTHING;
     }
 }
