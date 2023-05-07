@@ -5,9 +5,13 @@ import baseballgamev2.domain.PlayResult;
 public class ResultView {
 
     private static final String WRITE_STRIKE_FORMAT = "%d스트라이크";
-    private static final String WRITE_BALL_FORMAT = "%d볼";
+    private static final String WRITE_BALL_FORMAT = "%d볼 ";
     private static final String WRITE_NOTHING_MESSAGE = "낫싱";
     private static final String WRITE_GAME_END_MESSAGE = "3개의 숫자를 모두 맞히셨습니다! 게임 종료";
+
+    public void writeGameEndMessage() {
+        System.out.println(WRITE_GAME_END_MESSAGE);
+    }
 
     public void writeResult(PlayResult result) {
         if (result.isNothing()) {
@@ -18,11 +22,11 @@ public class ResultView {
         System.out.println(buildResultMessage(result));
     }
 
-    private StringBuilder buildResultMessage(PlayResult result) {
+    private String buildResultMessage(PlayResult result) {
         StringBuilder message = new StringBuilder();
         appendBallMessage(result, message);
         appendStrikeMessage(result, message);
-        return message;
+        return message.toString().trim();
     }
 
     private void appendStrikeMessage(PlayResult result, StringBuilder stringBuilder) {
