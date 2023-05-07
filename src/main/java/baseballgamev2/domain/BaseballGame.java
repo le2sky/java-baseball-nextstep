@@ -11,7 +11,7 @@ public class BaseballGame {
     }
 
     public PlayResult play(Balls userBalls) {
-        if (gameStatus.isEnd()) {
+        if (isEnd()) {
             throw new IllegalStateException();
         }
 
