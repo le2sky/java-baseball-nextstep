@@ -29,19 +29,19 @@ public class ResultView {
         return message.toString().trim();
     }
 
-    private void appendStrikeMessage(PlayResult result, StringBuilder stringBuilder) {
-        int strike = result.getStrike();
-        if (strike == 0) {
-            return;
-        }
-        stringBuilder.append(String.format(WRITE_STRIKE_FORMAT, strike));
-    }
-
     private void appendBallMessage(PlayResult result, StringBuilder stringBuilder) {
         int ball = result.getBall();
         if (ball == 0) {
             return;
         }
         stringBuilder.append(String.format(WRITE_BALL_FORMAT, ball));
+    }
+
+    private void appendStrikeMessage(PlayResult result, StringBuilder stringBuilder) {
+        int strike = result.getStrike();
+        if (strike == 0) {
+            return;
+        }
+        stringBuilder.append(String.format(WRITE_STRIKE_FORMAT, strike));
     }
 }
