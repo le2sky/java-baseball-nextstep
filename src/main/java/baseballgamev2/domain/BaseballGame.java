@@ -10,16 +10,16 @@ public class BaseballGame {
         this.gameStatus = GameStatus.PLAY;
     }
 
-    public boolean isEnd() {
-        return gameStatus.isEnd();
-    }
-
     public PlayResult play(Balls userBalls) {
         if (gameStatus.isEnd()) {
             throw new IllegalStateException();
         }
 
         return getPlayResult(userBalls);
+    }
+
+    public boolean isEnd() {
+        return gameStatus.isEnd();
     }
 
     private PlayResult getPlayResult(Balls userBalls) {
@@ -35,4 +35,3 @@ public class BaseballGame {
         this.gameStatus = GameStatus.END;
     }
 }
-
