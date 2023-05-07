@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Balls {
 
+    private static final int MAX_SIZE = 3;
     private final List<Ball> balls;
-    private final int MAX_SIZE = 3;
 
     public Balls(List<Integer> list) {
         validate(list);

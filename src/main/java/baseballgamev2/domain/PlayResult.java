@@ -2,7 +2,7 @@ package baseballgamev2.domain;
 
 public class PlayResult {
 
-    private final int GAME_OVER_CONDITION = 3;
+    private static final int GAME_OVER_CONDITION = 3;
     private int ball;
     private int strike;
 

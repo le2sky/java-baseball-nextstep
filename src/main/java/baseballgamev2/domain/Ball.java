@@ -2,10 +2,10 @@ package baseballgamev2.domain;
 
 class Ball {
 
+    private static final int MAX_RANGE = 9;
+    private static final int MIN_RANGE = 1;
     private final int position;
     private final int number;
-    private final int MAX_RANGE = 9;
-    private final int MIN_RANGE = 1;
 
     public Ball(int position, int number) {
         validate(number);
