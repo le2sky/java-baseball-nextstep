@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class InputMapper {
 
-    public static Balls mapToBalls(String input) {
+    static Balls mapToBalls(String input) {
         List<Integer> target = stream(input.split(""))
             .map(Integer::parseInt)
             .collect(Collectors.toUnmodifiableList());
@@ -16,7 +16,7 @@ public class InputMapper {
         return new Balls(target);
     }
 
-    public static GameCommand mapToCommand(String input) {
+    static GameCommand mapToCommand(String input) {
         return GameCommand.withCommand(input);
     }
 }

@@ -10,7 +10,7 @@ public enum GameCommand {
         this.command = command;
     }
 
-    public static GameCommand withCommand(String target) {
+    static GameCommand withCommand(String target) {
         if (REPLAY.isMe(target)) {
             return REPLAY;
         }
@@ -25,7 +25,7 @@ public enum GameCommand {
         return command.equals(target);
     }
 
-    public boolean isReplay() {
+    boolean isReplay() {
         return this == REPLAY;
     }
 }
